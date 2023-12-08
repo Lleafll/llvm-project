@@ -96,6 +96,7 @@ Clang-Tidy Checks
    `bugprone-incorrect-roundings <bugprone/incorrect-roundings.html>`_,
    `bugprone-infinite-loop <bugprone/infinite-loop.html>`_,
    `bugprone-integer-division <bugprone/integer-division.html>`_,
+   `bugprone-integer-literals-signedness <bugprone/integer-literals-signedness.html>`, "Yes"
    `bugprone-lambda-function-name <bugprone/lambda-function-name.html>`_,
    `bugprone-macro-parentheses <bugprone/macro-parentheses.html>`_, "Yes"
    `bugprone-macro-repeated-side-effects <bugprone/macro-repeated-side-effects.html>`_,
