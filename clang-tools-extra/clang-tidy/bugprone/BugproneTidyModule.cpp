@@ -34,6 +34,7 @@
 #include "IncorrectRoundingsCheck.h"
 #include "InfiniteLoopCheck.h"
 #include "IntegerDivisionCheck.h"
+#include "IntegerLiteralsSignednessCheck.h"
 #include "LambdaFunctionNameCheck.h"
 #include "MacroParenthesesCheck.h"
 #include "MacroRepeatedSideEffectsCheck.h"
@@ -131,6 +132,8 @@ public:
         "bugprone-inaccurate-erase");
     CheckFactories.registerCheck<IncorrectEnableIfCheck>(
         "bugprone-incorrect-enable-if");
+    CheckFactories.registerCheck<IntegerLiteralsSignednessCheck>(
+        "bugprone-integer-literals-signedness");
     CheckFactories.registerCheck<SwitchMissingDefaultCaseCheck>(
         "bugprone-switch-missing-default-case");
     CheckFactories.registerCheck<IncDecInConditionsCheck>(

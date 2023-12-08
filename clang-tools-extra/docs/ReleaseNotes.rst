@@ -155,6 +155,11 @@ New checks
   Detects incorrect usages of ``std::enable_if`` that don't name the nested
   ``type`` type.
 
+- New :doc:`bugprone-integer-literals-signedness
+  <clang-tidy/checks/bugprone/integer-literals-signedness>` check.
+
+  FIXME: add release notes.
+
 - New :doc:`bugprone-multi-level-implicit-pointer-conversion
   <clang-tidy/checks/bugprone/multi-level-implicit-pointer-conversion>` check.
 
