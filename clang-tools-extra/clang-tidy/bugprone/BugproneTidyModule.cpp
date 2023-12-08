@@ -30,6 +30,7 @@
 #include "IncorrectRoundingsCheck.h"
 #include "InfiniteLoopCheck.h"
 #include "IntegerDivisionCheck.h"
+#include "IntegerLiteralsSignednessCheck.h"
 #include "LambdaFunctionNameCheck.h"
 #include "MacroParenthesesCheck.h"
 #include "MacroRepeatedSideEffectsCheck.h"
