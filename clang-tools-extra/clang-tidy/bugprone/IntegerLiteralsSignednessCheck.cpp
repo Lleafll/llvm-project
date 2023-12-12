@@ -21,19 +21,29 @@ void IntegerLiteralsSignednessCheck::registerMatchers(MatchFinder *Finder) {
               0, integerLiteral(hasType(isUnsignedInteger())).bind("signed")),
           callee(functionDecl(hasParameter(0, hasType(isSignedInteger()))))),
       this);
+  Finder->addMatcher(
+      callExpr(
+          hasArgument(
+              0, integerLiteral(hasType(isSignedInteger())).bind("unsigned")),
+          callee(functionDecl(hasParameter(0, hasType(isUnsignedInteger()))))),
+      this);
 }
 
 void IntegerLiteralsSignednessCheck::check(
     const MatchFinder::MatchResult &Result) {
-  const auto *SignedMatchedDecl =
-      Result.Nodes.getNodeAs<IntegerLiteral>("signed");
-  if (SignedMatchedDecl) {
-    diag(SignedMatchedDecl->getLocation(),
+  if (const auto *MatchedDecl =
+          Result.Nodes.getNodeAs<IntegerLiteral>("signed")) {
+    diag(MatchedDecl->getLocation(),
          "unsigned integer literal assigned to signed integer")
-        << FixItHint::CreateInsertion(SignedMatchedDecl->getLocation(), "U");
-    diag(SignedMatchedDecl->getLocation(), "insert 'U'",
-         DiagnosticIDs::Warning);
-    return;
+        << FixItHint::CreateRemoval(
+               MatchedDecl->getLocation().getLocWithOffset(1));
+  }
+  if (const auto *MatchedDecl =
+          Result.Nodes.getNodeAs<IntegerLiteral>("unsigned")) {
+    diag(MatchedDecl->getLocation(),
+         "signed integer literal assigned to unsigned integer")
+        << FixItHint::CreateInsertion(
+               MatchedDecl->getLocation().getLocWithOffset(1), "U");
   }
 }
 
