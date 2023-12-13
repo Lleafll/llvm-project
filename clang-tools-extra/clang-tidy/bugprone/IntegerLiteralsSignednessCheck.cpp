@@ -16,30 +16,26 @@ namespace clang::tidy::bugprone {
 
 void IntegerLiteralsSignednessCheck::registerMatchers(MatchFinder *Finder) {
   Finder->addMatcher(
-      callExpr(
-          hasArgument(
-              0, integerLiteral(hasType(isUnsignedInteger())).bind("signed")),
-          callee(functionDecl(hasParameter(0, hasType(isSignedInteger()))))),
+      implicitCastExpr(hasDescendant(
+          integerLiteral(hasType(isSignedInteger())).bind("signed"))),
       this);
   Finder->addMatcher(
-      callExpr(
-          hasArgument(
-              0, integerLiteral(hasType(isSignedInteger())).bind("unsigned")),
-          callee(functionDecl(hasParameter(0, hasType(isUnsignedInteger()))))),
+      implicitCastExpr(hasDescendant(
+          integerLiteral(hasType(isUnsignedInteger())).bind("unsigned"))),
       this);
 }
 
 void IntegerLiteralsSignednessCheck::check(
     const MatchFinder::MatchResult &Result) {
   if (const auto *MatchedDecl =
-          Result.Nodes.getNodeAs<IntegerLiteral>("signed")) {
+          Result.Nodes.getNodeAs<IntegerLiteral>("unsigned")) {
     diag(MatchedDecl->getLocation(),
          "unsigned integer literal assigned to signed integer")
         << FixItHint::CreateRemoval(
                MatchedDecl->getLocation().getLocWithOffset(1));
   }
   if (const auto *MatchedDecl =
-          Result.Nodes.getNodeAs<IntegerLiteral>("unsigned")) {
+          Result.Nodes.getNodeAs<IntegerLiteral>("signed")) {
     diag(MatchedDecl->getLocation(),
          "signed integer literal assigned to unsigned integer")
         << FixItHint::CreateInsertion(
